@@ -46,6 +46,14 @@ export default function App() {
       <ScrollView style={styles.results}>
         {state.results.map((result) => (
           <View key={result.imdbID} style={styles.result}>
+            <Image
+              source={{ uri: result.Poster }}
+              style={{
+                width: "100%",
+                height: 300,
+              }}
+              resizeMode="cover"
+            />
             <Text style={styles.heading}>{result.Title}</Text>
           </View>
         ))}

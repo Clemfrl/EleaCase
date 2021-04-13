@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import axios from "axios";
-import { StyleSheet, Text, View, SafeAreaView, TextInput } from "react-native";
 
 export default function App() {
   const apiurl = "http://www.omdbapi.com/?i=tt3896198&apikey=5d6a2d9e";
@@ -31,8 +30,17 @@ export default function App() {
             return { ...prevState, s: text };
           })
         }
+        onSubmitEditing={search}
         value={state.s}
       />
+
+      <ScrollView style={styles.results}>
+        {state.results.map((result) => (
+          <View key={result.imdbID} style={styles.result}>
+            <Text style={styles.heading}>{result.Title}</Text>
+          </View>
+        ))}
+      </ScrollView>
       <StatusBar style="auto" />
     </SafeAreaView>
   );

@@ -1,5 +1,13 @@
+import React, { useState } from "react";
+import axios from "axios";
 
 export default function App() {
+  const apiurl = "http://www.omdbapi.com/?i=tt3896198&apikey=5d6a2d9e";
+  const [state, setState] = useState({
+    s: "Enter a movie...",
+    results: [],
+    selected: {},
+  });
   return (
       <StatusBar style="auto" />
   );

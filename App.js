@@ -22,7 +22,19 @@ export default function App() {
   };
 
   return (
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Elea Health DataBase</Text>
+      <TextInput
+        style={styles.searchbox}
+        onChangeText={(text) =>
+          setState((prevState) => {
+            return { ...prevState, s: text };
+          })
+        }
+        value={state.s}
+      />
       <StatusBar style="auto" />
+    </SafeAreaView>
   );
 }
 

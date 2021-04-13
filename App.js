@@ -9,6 +9,7 @@ import {
   TextInput,
   ScrollView,
   Image,
+  TouchableHighlight,
 } from "react-native";
 
 export default function App() {
@@ -29,6 +30,15 @@ export default function App() {
     });
   };
 
+  const openPopup = () => {
+    axios(apiurl + "&i=" + id).then(({ data }) => {
+      let result = data;
+      setState((prevState) => {
+        return { ...prevState, selected: result };
+      });
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Elea Health DataBase</Text>
@@ -45,17 +55,22 @@ export default function App() {
 
       <ScrollView style={styles.results}>
         {state.results.map((result) => (
-          <View key={result.imdbID} style={styles.result}>
-            <Image
-              source={{ uri: result.Poster }}
-              style={{
-                width: "100%",
-                height: 300,
-              }}
-              resizeMode="cover"
-            />
-            <Text style={styles.heading}>{result.Title}</Text>
-          </View>
+          <TouchableHighlight
+            key={result.imdbID}
+            onPress={() => openPopup(result.imdbID)}
+          >
+            <View key={result.imdbID} style={styles.result}>
+              <Image
+                source={{ uri: result.Poster }}
+                style={{
+                  width: "100%",
+                  height: 300,
+                }}
+                resizeMode="cover"
+              />
+              <Text style={styles.heading}>{result.Title}</Text>
+            </View>
+          </TouchableHighlight>
         ))}
       </ScrollView>
       <StatusBar style="auto" />

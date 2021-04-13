@@ -1,5 +1,7 @@
+import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import axios from "axios";
+import { StyleSheet, Text, View, SafeAreaView, TextInput } from "react-native";
 
 export default function App() {
   const apiurl = "http://www.omdbapi.com/?i=tt3896198&apikey=5d6a2d9e";
@@ -8,6 +10,17 @@ export default function App() {
     results: [],
     selected: {},
   });
+
+  const search = () => {
+    axios(apiurl + "&s=" + state.s).then(({ data }) => {
+      let results = data.Search;
+      console.log(results);
+      setState((prevState) => {
+        return { ...prevState, results: results };
+      });
+    });
+  };
+
   return (
       <StatusBar style="auto" />
   );

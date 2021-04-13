@@ -1,6 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import axios from "axios";
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TextInput,
+  ScrollView,
+  Image,
+} from "react-native";
 
 export default function App() {
   const apiurl = "http://www.omdbapi.com/?i=tt3896198&apikey=5d6a2d9e";
@@ -68,5 +77,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     borderRadius: 8,
     marginBottom: 40,
+  },
+  results: {
+    flex: 1,
+  },
+  result: {
+    flex: 1,
+    width: "100%",
+    marginBottom: 20,
+  },
+  heading: {
+    color: "#FFF",
+    fontSize: 18,
+    fontWeight: "700",
+    padding: 20,
+    backgroundColor: "#445565",
   },
 });

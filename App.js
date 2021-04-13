@@ -10,6 +10,7 @@ import {
   ScrollView,
   Image,
   TouchableHighlight,
+  Modal,
 } from "react-native";
 
 export default function App() {
@@ -30,8 +31,8 @@ export default function App() {
     });
   };
 
-  const openPopup = () => {
-    axios(apiurl + "&i=" + id).then(({ data }) => {
+  const openPopup = (id) => {
+    axios(apiurl + "&t=" + id).then(({ data }) => {
       let result = data;
       setState((prevState) => {
         return { ...prevState, selected: result };
@@ -57,9 +58,9 @@ export default function App() {
         {state.results.map((result) => (
           <TouchableHighlight
             key={result.imdbID}
-            onPress={() => openPopup(result.imdbID)}
+            onPress={() => openPopup(result.Title)}
           >
-            <View key={result.imdbID} style={styles.result}>
+            <View style={styles.result}>
               <Image
                 source={{ uri: result.Poster }}
                 style={{
@@ -73,6 +74,39 @@ export default function App() {
           </TouchableHighlight>
         ))}
       </ScrollView>
+
+      <Modal
+        animationType="fade"
+        transparent={false}
+        visible={typeof state.selected.Title != "undefined"}
+      >
+        <SafeAreaView style={styles.popup}>
+          <Image
+            source={{ uri: state.selected.Poster }}
+            style={{
+              width: "80%",
+              height: 300,
+            }}
+          />
+          <Text style={styles.poptitle}>{state.selected.Title}</Text>
+          <Text>Rating: {state.selected.imdbRating}</Text>
+          <Text>Genre: {state.selected.Genre}</Text>
+          <Text>Director: {state.selected.Director}</Text>
+          <Text style={{ marginBottom: 20 }}>
+            Actors: {state.selected.Actors}
+          </Text>
+          <Text>{state.selected.Plot}</Text>
+        </SafeAreaView>
+        <TouchableHighlight
+          onPress={() =>
+            setState((prevState) => {
+              return { ...prevState, selected: {} };
+            })
+          }
+        >
+          <Text style={styles.closebutton}>Close</Text>
+        </TouchableHighlight>
+      </Modal>
       <StatusBar style="auto" />
     </SafeAreaView>
   );

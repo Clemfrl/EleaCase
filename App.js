@@ -150,4 +150,18 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#445565",
   },
+  popup: {
+    padding: 20,
+  },
+  poptitle: {
+    fontSize: 24,
+    fontWeight: "700",
+    marginBottom: 5,
+  },
+  closebutton: {
+    padding: 20,
+    fontSize: 20,
+    fontWeight: "700",
+    backgroundColor: "#2484C4",
+  },
 });

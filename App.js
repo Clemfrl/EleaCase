@@ -98,6 +98,19 @@ export default function App() {
         visible={typeof state.selected.Title != "undefined"}
       >
         <SafeAreaView style={styles.popup}>
+          <TouchableHighlight
+            onPress={() =>
+              setState((prevState) => {
+                return { ...prevState, selected: {} };
+              })
+            }
+          >
+            <Image
+              source={require("./assets/arrow.png")}
+              style={styles.iconStyle}
+            />
+          </TouchableHighlight>
+
           <Image
             source={{ uri: state.selected.Poster }}
             style={{

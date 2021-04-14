@@ -24,7 +24,6 @@ export default function App() {
   const search = () => {
     axios(apiurl + "&s=" + state.s).then(({ data }) => {
       let results = data.Search;
-      console.log(results);
       setState((prevState) => {
         return { ...prevState, results: results };
       });
@@ -42,17 +41,6 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Elea Health DataBase</Text>
-      <TextInput
-        style={styles.searchbox}
-        onChangeText={(text) =>
-          setState((prevState) => {
-            return { ...prevState, s: text };
-          })
-        }
-        onSubmitEditing={search}
-        value={state.s}
-      />
       <Text style={styles.title}>Find a movie, a TV show or many more...</Text>
       <View style={styles.textBox}>
         <Image
@@ -80,10 +68,7 @@ export default function App() {
             <View style={styles.result}>
               <Image
                 source={{ uri: result.Poster }}
-                style={{
-                  width: "100%",
-                  height: 300,
-                }}
+                style={styles.PosterResult}
                 resizeMode="cover"
               />
               <Text style={styles.heading}>{result.Title}</Text>
@@ -113,19 +98,20 @@ export default function App() {
 
           <Image
             source={{ uri: state.selected.Poster }}
-            style={{
-              width: "80%",
-              height: 300,
-            }}
+            style={styles.selectedPoster}
           />
           <Text style={styles.poptitle}>{state.selected.Title}</Text>
-          <Text>Rating: {state.selected.imdbRating}</Text>
-          <Text>Genre: {state.selected.Genre}</Text>
-          <Text>Director: {state.selected.Director}</Text>
-          <Text style={{ marginBottom: 20 }}>
+          <Text style={{ marginLeft: 20 }}>
+            Rating: {state.selected.imdbRating} (IMDB)
+          </Text>
+          <Text style={{ marginLeft: 20 }}>Genre: {state.selected.Genre}</Text>
+          <Text style={{ marginLeft: 20 }}>
+            Director: {state.selected.Director}
+          </Text>
+          <Text style={{ marginLeft: 20 }}>
             Actors: {state.selected.Actors}
           </Text>
-          <Text>{state.selected.Plot}</Text>
+          <Text style={{ margin: 20 }}>{state.selected.Plot}</Text>
         </SafeAreaView>
         <TouchableHighlight
           onPress={() =>
@@ -145,48 +131,100 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#264653",
+    backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "flex-start",
   },
   title: {
-    color: "#fff",
-    fontSize: 38,
+    color: "#FFF",
+    fontSize: 34,
     fontWeight: "800",
-    textAlign: "center",
+    marginLeft: 20,
+    marginRight: 20,
     marginBottom: 20,
+    marginTop: 50,
+  },
+
+  // searchbar styling
+  textBox: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFF",
+    borderWidth: 6,
+    borderRadius: 16,
+    borderColor: "#FFF",
+    height: 60,
+    width: "92%",
+    marginBottom: 30,
+  },
+  iconStyle: {
+    padding: 10,
+    marginLeft: 10,
+    marginRight: 5,
+    height: 42,
+    width: 42,
+    resizeMode: "stretch",
+    alignItems: "center",
   },
   searchbox: {
     fontSize: 20,
     fontWeight: "300",
     padding: 20,
-    width: "100%",
-    backgroundColor: "#FFF",
+    width: "90%",
+    marginLeft: 30,
+    marginRight: 30,
+    backgroundColor: "#197177",
     borderRadius: 8,
     marginBottom: 40,
   },
+  input: {
+    alignItems: "center",
+    width: "88%",
+    fontSize: 20,
+  },
+
+  // Results styling
   results: {
     flex: 1,
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
   },
   result: {
     flex: 1,
     width: "100%",
     marginBottom: 20,
   },
+  PosterResult: {
+    width: 350,
+    height: 500,
+    borderTopRightRadius: 16,
+    borderTopLeftRadius: 16,
+  },
   heading: {
-    color: "#FFF",
+    color: "#197177",
     fontSize: 18,
     fontWeight: "700",
     padding: 20,
-    backgroundColor: "#445565",
+    backgroundColor: "#FFF",
   },
+
+  // Popup styling
   popup: {
     padding: 20,
+  },
+  selectedPoster: {
+    width: 200,
+    height: 300,
+    borderRadius: 16,
+    marginLeft: 20,
+    marginBottom: 20,
   },
   poptitle: {
     fontSize: 24,
     fontWeight: "700",
     marginBottom: 5,
+    marginLeft: 20,
   },
   closebutton: {
     padding: 20,

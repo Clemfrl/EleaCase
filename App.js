@@ -53,6 +53,23 @@ export default function App() {
         onSubmitEditing={search}
         value={state.s}
       />
+      <Text style={styles.title}>Find a movie, a TV show or many more...</Text>
+      <View style={styles.textBox}>
+        <Image
+          source={require("./assets/loupe.png")}
+          style={styles.iconStyle}
+        />
+        <TextInput
+          style={styles.input}
+          onChangeText={(text) =>
+            setState((prevState) => {
+              return { ...prevState, s: text };
+            })
+          }
+          onSubmitEditing={search}
+          value={state.s}
+        />
+      </View>
 
       <ScrollView style={styles.results}>
         {state.results.map((result) => (

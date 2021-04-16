@@ -128,6 +128,7 @@ export default function App() {
         animationType="fade"
         transparent={false}
         visible={typeof state.selected.Title != "undefined"}
+        style={{ backgroundColor: "#000" }}
       >
         <SafeAreaView style={styles.popup}>
           <TouchableHighlight
@@ -137,6 +138,22 @@ export default function App() {
               })
             }
           >
+        <SafeAreaView style={{ backgroundColor: "#000" }}>
+          <ScrollView style={styles.popup}>
+            <TouchableHighlight
+              underlayColor=""
+              onPress={() =>
+                setState((prevState) => {
+                  return { ...prevState, selected: {} };
+                })
+              }
+            >
+              <Image
+                source={require("./assets/arrow-white.png")}
+                style={styles.iconStyle}
+              />
+            </TouchableHighlight>
+
             <Image
               source={require("./assets/arrow.png")}
               style={styles.iconStyle}

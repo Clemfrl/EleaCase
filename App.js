@@ -17,6 +17,7 @@ export default function App() {
   const apiurl = "http://www.omdbapi.com/?i=tt3896198&apikey=5d6a2d9e";
   const [state, setState] = useState({
     s: "Enter a movie...",
+    s: "",
     results: [],
     selected: {},
   });
@@ -24,6 +25,7 @@ export default function App() {
   const search = () => {
     axios(apiurl + "&s=" + state.s).then(({ data }) => {
       let results = data.Search;
+      let results = data.Search || [];
       setState((prevState) => {
         return { ...prevState, results: results };
       });
@@ -48,6 +50,7 @@ export default function App() {
           style={styles.iconStyle}
         />
         <TextInput
+          placeholder="Enter a movie..."
           style={styles.input}
           onChangeText={(text) =>
             setState((prevState) => {

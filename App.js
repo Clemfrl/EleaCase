@@ -63,6 +63,15 @@ export default function App() {
         />
       </View>
 
+      {/* Displaying Alert if no results */}
+      {!state.results && (
+        <View style={styles.noResults}>
+          <Text style={styles.noResultsText}>
+            No results, please try something else.
+          </Text>
+        </View>
+      )}
+
       <ScrollView style={styles.results}>
         {state.results.length === 0 && (
           <View style={styles.noResults}>

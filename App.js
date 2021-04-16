@@ -1,5 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
+import { StatusBar } from "expo-status-bar";
 import axios from "axios";
 import {
   StyleSheet,
@@ -16,7 +16,6 @@ import {
 export default function App() {
   const apiurl = "http://www.omdbapi.com/?i=tt3896198&apikey=5d6a2d9e";
   const [state, setState] = useState({
-    s: "Enter a movie...",
     s: "",
     results: [],
     selected: {},
@@ -25,7 +24,6 @@ export default function App() {
   const search = () => {
     axios(apiurl + "&s=" + state.s).then(({ data }) => {
       let results = data.Search;
-      let results = data.Search || [];
       setState((prevState) => {
         return { ...prevState, results: results };
       });
@@ -48,7 +46,7 @@ export default function App() {
       <View style={styles.textBox}>
         <Image
           source={require("./assets/loupe.png")}
-          style={styles.iconStyle}
+          style={styles.searchIcon}
         />
         <TextInput
           placeholder="Enter a movie..."
@@ -73,28 +71,6 @@ export default function App() {
       )}
 
       <ScrollView style={styles.results}>
-        {state.results.length === 0 && (
-          <View style={styles.noResults}>
-            <Text style={styles.noResultsText}>
-              No results, please try something else.
-            </Text>
-          </View>
-        )}
-        {state.results.map((result) => (
-          <TouchableHighlight
-            key={result.imdbID}
-            onPress={() => openPopup(result.Title)}
-          >
-            <View style={styles.result}>
-              <Image
-                source={{ uri: result.Poster }}
-                style={styles.PosterResult}
-                resizeMode="cover"
-              />
-              <Text style={styles.heading}>{result.Title}</Text>
-            </View>
-          </TouchableHighlight>
-        ))}
         {state.results &&
           state.results.map((result) => (
             <TouchableHighlight
@@ -130,14 +106,6 @@ export default function App() {
         visible={typeof state.selected.Title != "undefined"}
         style={{ backgroundColor: "#000" }}
       >
-        <SafeAreaView style={styles.popup}>
-          <TouchableHighlight
-            onPress={() =>
-              setState((prevState) => {
-                return { ...prevState, selected: {} };
-              })
-            }
-          >
         <SafeAreaView style={{ backgroundColor: "#000" }}>
           <ScrollView style={styles.popup}>
             <TouchableHighlight
@@ -155,39 +123,32 @@ export default function App() {
             </TouchableHighlight>
 
             <Image
-              source={require("./assets/arrow.png")}
-              style={styles.iconStyle}
+              source={{ uri: state.selected.Poster }}
+              style={styles.selectedPoster}
             />
-          </TouchableHighlight>
 
-          <Image
-            source={{ uri: state.selected.Poster }}
-            style={styles.selectedPoster}
-          />
-          <Text style={styles.poptitle}>{state.selected.Title}</Text>
-          <Text style={{ marginLeft: 20 }}>
-            Rating: {state.selected.imdbRating} (IMDB)
-          </Text>
-          <Text style={{ marginLeft: 20 }}>Genre: {state.selected.Genre}</Text>
-          <Text style={{ marginLeft: 20 }}>
-            Director: {state.selected.Director}
-          </Text>
-          <Text style={{ marginLeft: 20 }}>
-            Actors: {state.selected.Actors}
-          </Text>
-          <Text style={{ margin: 20 }}>{state.selected.Plot}</Text>
+            <Text style={styles.popTitle}>
+              {state.selected.Title} ({state.selected.Year})
+            </Text>
+
+            <Text style={{ marginLeft: 20, color: "#FFF" }}>
+              Rating: {state.selected.imdbRating} (IMDB)
+            </Text>
+            <Text style={{ marginLeft: 20, color: "#FFF" }}>
+              Genre: {state.selected.Genre}
+            </Text>
+            <Text style={{ marginLeft: 20, color: "#FFF" }}>
+              Director: {state.selected.Director}
+            </Text>
+            <Text style={{ marginLeft: 20, marginRight: 20, color: "#FFF" }}>
+              Actors: {state.selected.Actors}
+            </Text>
+            <Text style={{ margin: 20, color: "#FFF" }}>
+              {state.selected.Plot}
+            </Text>
+          </ScrollView>
         </SafeAreaView>
-        <TouchableHighlight
-          onPress={() =>
-            setState((prevState) => {
-              return { ...prevState, selected: {} };
-            })
-          }
-        >
-          <Text style={styles.closebutton}>Close</Text>
-        </TouchableHighlight>
       </Modal>
-      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }
@@ -195,9 +156,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "flex-start",
+    backgroundColor: "#000000",
   },
   title: {
     color: "#FFF",
@@ -221,49 +180,57 @@ const styles = StyleSheet.create({
     height: 60,
     width: "92%",
     marginBottom: 30,
+    alignSelf: "center",
   },
-  iconStyle: {
-    padding: 10,
-    marginLeft: 10,
-    marginRight: 5,
-    height: 42,
-    width: 42,
+  searchIcon: {
+    marginRight: 7,
+    height: 32,
+    width: 32,
     resizeMode: "stretch",
     alignItems: "center",
   },
-  searchbox: {
-    fontSize: 20,
-    fontWeight: "300",
-    padding: 20,
-    width: "90%",
-    marginLeft: 30,
-    marginRight: 30,
-    backgroundColor: "#197177",
-    borderRadius: 8,
-    marginBottom: 40,
-  },
+
   input: {
     alignItems: "center",
     width: "88%",
     fontSize: 20,
   },
 
+  noResults: {
+    flex: 1,
+  },
+  noResultsText: {
+    color: "white",
+    textAlign: "center",
+  },
+
   // Results styling
   results: {
-    flex: 1,
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
+    marginHorizontal: 20,
   },
   result: {
+    borderRadius: 8,
     flex: 1,
-    width: "100%",
-    marginBottom: 20,
+    flexDirection: "row",
+    backgroundColor: "#eeeeee",
+    padding: 8,
+    marginBottom: 16,
   },
-  PosterResult: {
-    width: 350,
-    height: 500,
-    borderTopRightRadius: 16,
-    borderTopLeftRadius: 16,
+  resultBlock: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  blockTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    marginTop: 4,
+  },
+  resultPoster: {
+    borderRadius: 4,
+    height: 70,
+    width: 50,
+    marginRight: 8,
   },
   heading: {
     color: "#197177",
@@ -276,24 +243,29 @@ const styles = StyleSheet.create({
   // Popup styling
   popup: {
     padding: 20,
+    backgroundColor: "#000",
+    height: "100%",
+  },
+  iconStyle: {
+    marginLeft: 5,
+    marginBottom: 15,
+    height: 30,
+    width: 30,
+    resizeMode: "stretch",
+    alignItems: "center",
   },
   selectedPoster: {
-    width: 200,
-    height: 300,
+    maxWidth: "100%",
+    height: 600,
     borderRadius: 16,
-    marginLeft: 20,
+    borderWidth: 3,
     marginBottom: 20,
   },
-  poptitle: {
+  popTitle: {
     fontSize: 24,
     fontWeight: "700",
     marginBottom: 5,
     marginLeft: 20,
-  },
-  closebutton: {
-    padding: 20,
-    fontSize: 20,
-    fontWeight: "700",
-    backgroundColor: "#2484C4",
+    color: "white",
   },
 });

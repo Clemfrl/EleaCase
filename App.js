@@ -63,6 +63,13 @@ export default function App() {
       </View>
 
       <ScrollView style={styles.results}>
+        {state.results.length === 0 && (
+          <View style={styles.noResults}>
+            <Text style={styles.noResultsText}>
+              No results, please try something else.
+            </Text>
+          </View>
+        )}
         {state.results.map((result) => (
           <TouchableHighlight
             key={result.imdbID}

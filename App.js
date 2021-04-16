@@ -43,6 +43,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="light" />
       <Text style={styles.title}>Find a movie, a TV show or many more...</Text>
       <View style={styles.textBox}>
         <Image

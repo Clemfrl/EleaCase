@@ -13,6 +13,7 @@ import {
   Modal,
 } from "react-native";
 
+//Calling Movie API
 export default function App() {
   const apiurl = "http://www.omdbapi.com/?i=tt3896198&apikey=5d6a2d9e";
   const [state, setState] = useState({
@@ -21,6 +22,7 @@ export default function App() {
     selected: {},
   });
 
+  //Calling results from the search
   const search = () => {
     axios(apiurl + "&s=" + state.s).then(({ data }) => {
       let results = data.Search;
@@ -30,6 +32,7 @@ export default function App() {
     });
   };
 
+  //Calling informations for the popup
   const openPopup = (id) => {
     axios(apiurl + "&t=" + id).then(({ data }) => {
       let result = data;
@@ -43,6 +46,8 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <Text style={styles.title}>Find a movie, a TV show or many more...</Text>
+
+      {/* Displaying Searchbar */}
       <View style={styles.textBox}>
         <Image
           source={require("./assets/loupe.png")}
@@ -70,6 +75,7 @@ export default function App() {
         </View>
       )}
 
+      {/* Displaying keyword results */}
       <ScrollView style={styles.results}>
         {state.results &&
           state.results.map((result) => (
@@ -100,6 +106,7 @@ export default function App() {
           ))}
       </ScrollView>
 
+      {/* Displaying Movie informations */}
       <Modal
         animationType="fade"
         transparent={false}
@@ -153,6 +160,7 @@ export default function App() {
   );
 }
 
+//Styling
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -196,6 +204,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
+  // No results styling
   noResults: {
     flex: 1,
   },

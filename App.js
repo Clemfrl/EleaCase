@@ -95,6 +95,33 @@ export default function App() {
             </View>
           </TouchableHighlight>
         ))}
+        {state.results &&
+          state.results.map((result) => (
+            <TouchableHighlight
+              key={result.imdbID}
+              onPress={() => openPopup(result.Title)}
+            >
+              <View style={styles.result}>
+                <Image
+                  source={{ uri: result.Poster }}
+                  style={styles.resultPoster}
+                  resizeMode="cover"
+                />
+                <View style={styles.resultBlock}>
+                  <Text style={styles.blockTitle}>{result.Title}</Text>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text style={styles.blockType}>{result.Type}</Text>
+                    <Text style={styles.blockYerar}>{result.Year}</Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableHighlight>
+          ))}
       </ScrollView>
 
       <Modal

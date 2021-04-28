@@ -58,6 +58,7 @@ export default function App() {
           style={styles.input}
           onChangeText={(text) =>
             setState((prevState) => {
+              console.log();
               return { ...prevState, s: text };
             })
           }

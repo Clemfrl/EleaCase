@@ -1,4 +1,4 @@
-# Welcome to MovieDB App for Elea Health !
+# Welcome to MovieDB App for my weekly challenge !
 
 ## About
 
